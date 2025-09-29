@@ -1,5 +1,7 @@
 # The btern Processor Project (BPP): The Future is Ternary
 
+![btern Logo](https://madgoathaz.github.io/btern/btern.png)
+
 [![GitHub Pages Status](https://github.com/MadGoatHaz/btern/actions/workflows/pages.yml/badge.svg)](https://madgoathaz.github.io/btern/)
 
 **[View the Interactive Project Webpage Here](https://madgoathaz.github.io/btern/)**

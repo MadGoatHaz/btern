@@ -1,0 +1,7 @@
+# Rust
+/target/
+/Cargo.lock
+
+# Specific to this project
+/test_program.bin
+/rustup-init.exe

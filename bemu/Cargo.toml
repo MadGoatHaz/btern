@@ -1,0 +1,7 @@
+[package]
+name = "bemu"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+btern_core = { path = "../btern_core" }

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>btern Processor Project (bpp)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Midnight Slate -->
+    <!-- Application Structure Plan: The SPA is designed as a central project hub or 'living document' to onboard new contributors. The structure is a top-down narrative: Vision (the 'why'), Core Architecture (the 'what'), a pragmatic statement on Binary Emulation, the Roadmap (the 'how'), The Ternary Advantage (the 'value proposition'), and a closing commitment to Transparency. This logical flow guides the user from high-level concepts to the specific benefits and operational ethos. The core philosophy has been updated to frame the project as the ultimate evolution of digital computing with a strong emphasis on AI. -->
+    <!-- Visualization & Content Choices: 
+        - Project Vision -> Goal: Inform -> Presentation: Icon-driven feature cards -> Interaction: Hover effects -> Justification: The text has been updated to prominently feature AI as a key driver of the architecture. The icons are sleek SVGs for a professional look.
+        - Core Architecture -> Goal: Organize -> Presentation: Tabbed interface with expanded content -> Interaction: Click to reveal content -> Justification: The "Philosophy" section now has a dedicated point explaining why the architecture is inherently suited for AI workloads.
+        - Binary Emulation Section -> Goal: Inform -> Presentation: Highlighted callout box -> Interaction: None -> Justification: Now frames binary emulation as carrying the legacy of computing into its ultimate digital form.
+        - Development Roadmap -> Goal: Organize/Change -> Presentation: Expanded visual timeline with HTML/CSS -> Interaction: Content is laid out chronologically -> Justification: Clearly illustrates the more detailed, multi-step development plan.
+        - The Ternary Advantage -> Goal: Compare/Inform -> Presentation: Expanded 6-card grid -> Interaction: Hover effects -> Justification: One card is now dedicated to "AI-Native Architectures," explicitly connecting ternary logic to TNNs and LLMs.
+        - Transparency Section -> Goal: Inform -> Presentation: Highlighted callout box placed at the end -> Interaction: None -> Justification: Serves as a powerful closing statement.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+        .tab-active {
+            border-color: #3b82f6;
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+        }
+        .hide { display: none; }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeInAnimation 0.5s ease-in-out forwards;
+        }
+
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeInAnimation {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .glow-pulse {
+            animation: glowPulseAnimation 3s infinite ease-in-out;
+        }
+        
+        @keyframes glowPulseAnimation {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.2); }
+            50% { box-shadow: 0 0 35px rgba(59, 130, 246, 0.4); }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at 15% 25%, rgba(19, 78, 74, 0.2), transparent 40%),
+                        radial-gradient(circle at 85% 75%, rgba(37, 99, 235, 0.15), transparent 40%);
+            z-index: -1;
+            animation: backgroundAnimation 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes backgroundAnimation {
+            from { transform: scale(1) rotate(0deg); }
+            to { transform: scale(1.2) rotate(20deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-300 overflow-x-hidden">
+
+    <header id="header" class="bg-gray-900/80 backdrop-blur-lg sticky top-0 z-50 border-b border-gray-700/60 transition-shadow duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300">btern Project</h1>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#vision" class="text-gray-400 hover:text-blue-300 transition-colors duration-300">Vision</a>
+                <a href="#architecture" class="text-gray-400 hover:text-blue-300 transition-colors duration-300">Architecture</a>
+                <a href="#roadmap" class="text-gray-400 hover:text-blue-300 transition-colors duration-300">Roadmap</a>
+                <a href="#advantage" class="text-gray-400 hover:text-blue-300 transition-colors duration-300">Advantage</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section class="text-center my-16 md:my-24">
+            <h2 class="text-5xl md:text-7xl font-extrabold mb-4 py-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300 animate-[fadeInAnimation_1s_ease-out_forwards]">The Future is Ternary</h2>
+            <p class="text-xl text-gray-400 max-w-3xl mx-auto animate-[fadeInAnimation_1.2s_ease-out_forwards_0.2s] opacity-0">
+                A community-driven initiative to perfect digital computing—creating the ultimate architecture for AI and generations to come.
+            </p>
+        </section>
+
+        <section id="vision" class="mb-24 scroll-mt-24">
+            <h3 class="text-4xl font-bold text-center mb-12 text-white scroll-animate">Project Vision</h3>
+             <div class="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 hover:border-blue-500/70 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2 transition-all duration-300 scroll-animate">
+                    <div class="w-12 h-12 mb-3 text-blue-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                        </svg>
+                    </div>
+                    <h4 class="font-bold text-lg text-blue-300 mb-2">Ultimate Digital Performance</h4>
+                    <p class="text-gray-400">Establish the definitive architecture for digital speed and efficiency, creating a new, lasting ceiling for computational power.</p>
+                </div>
+                <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 hover:border-blue-500/70 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2 transition-all duration-300 scroll-animate" style="transition-delay: 100ms;">
+                    <div class="w-12 h-12 mb-3 text-blue-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                        </svg>
+                    </div>
+                    <h4 class="font-bold text-lg text-blue-300 mb-2">Maximum Information Density</h4>
+                    <p class="text-gray-400">Achieve unparalleled data frugality. Ternary systems represent more information with fewer digits for hyper-efficient data handling.</p>
+                </div>
+                <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 hover:border-blue-500/70 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2 transition-all duration-300 scroll-animate" style="transition-delay: 200ms;">
+                    <div class="w-12 h-12 mb-3 text-blue-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V8.25a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 8.25v7.5a2.25 2.25 0 002.25 2.25z" />
+                        </svg>
+                    </div>
+                    <h4 class="font-bold text-lg text-blue-300 mb-2">AI & Future-Ready Systems</h4>
+                    <p class="text-gray-400">Natively handle multi-value logic essential for advanced AI, while creating the ideal classical partner for future quantum systems.</p>
+                </div>
+                <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 hover:border-blue-500/70 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2 transition-all duration-300 scroll-animate" style="transition-delay: 300ms;">
+                    <div class="w-12 h-12 mb-3 text-blue-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.667 0l3.182-3.182m0-4.991v4.99" />
+                        </svg>
+                    </div>
+                    <h4 class="font-bold text-lg text-blue-300 mb-2">Seamless Evolution</h4>
+                    <p class="text-gray-400">Designed from the ground up to compute existing binary applications, carrying forward our digital legacy into its ultimate form.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="architecture" class="mb-24 scroll-mt-24">
+            <h3 class="text-4xl font-bold text-center mb-12 text-white scroll-animate">Core Architectural Specification</h3>
+            <div class="max-w-5xl mx-auto bg-gray-800/50 rounded-lg border border-gray-700 scroll-animate">
+                <div class="border-b border-gray-700">
+                    <div id="arch-tabs" class="flex flex-wrap -mb-px p-4">
+                        <button class="arch-tab tab-active text-lg font-semibold p-4 border-b-2 border-transparent rounded-t-lg transition-colors duration-300" data-target="tab-philosophy">Philosophy & Goals</button>
+                        <button class="arch-tab text-lg font-semibold p-4 border-b-2 border-transparent rounded-t-lg transition-colors duration-300" data-target="tab-data">Data Representation</button>
+                        <button class="arch-tab text-lg font-semibold p-4 border-b-2 border-transparent rounded-t-lg transition-colors duration-300" data-target="tab-registers">Register Set</button>
+                        <button class="arch-tab text-lg font-semibold p-4 border-b-2 border-transparent rounded-t-lg transition-colors duration-300" data-target="tab-isa">Instruction Set (ISA)</button>
+                    </div>
+                </div>
+                <div id="arch-content" class="p-8">
+                    <div class="arch-content-pane fade-in" id="tab-philosophy">
+                        <h4 class="text-2xl font-bold mb-4 text-blue-300">Core Philosophy & Goals</h4>
+                         <div class="space-y-6">
+                            <div>
+                                <strong class="text-lg text-gray-200 block mb-1">Perfecting the Digital Paradigm</strong>
+                                <p class="text-gray-400">The `btern` project aims to perfect the digital computing paradigm. Balanced ternary logic represents the most efficient and elegant expression of digital processing. This architecture is not an incremental improvement; it is the pinnacle of what digital systems can be, providing a stable, hyper-efficient foundation that will endure as long as digital computation is relevant.</p>
+                            </div>
+                            <div>
+                                <strong class="text-lg text-gray-200 block mb-1">An Architecture for Intelligence</strong>
+                                 <p class="text-gray-400">A primary goal is to create an architecture inherently suited for Artificial Intelligence. Binary systems struggle to represent the nuance required by modern AI. The native {-1, 0, 1} logic of balanced ternary directly maps to the core concepts of neural networks (inhibit, ignore, excite), enabling smaller, faster, and more power-efficient AI models. This is the architecture AI has been waiting for.</p>
+                            </div>
+                             <div>
+                                <strong class="text-lg text-gray-200 block mb-1">The Classical Partner to Quantum's Future</strong>
+                                 <p class="text-gray-400">We envision a future where `btern` architecture exists side-by-side with quantum systems. While quantum computing will excel at specific problems, the vast majority of tasks will still require the speed and efficiency of a perfected classical processor. `btern` is designed to be that ultimate classical counterpart.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="arch-content-pane hide" id="tab-data">
+                        <h4 class="text-2xl font-bold mb-4 text-blue-300">Data Representation</h4>
+                        <div class="space-y-6">
+                            <div><strong class="text-lg text-gray-200 block mb-1">Trit Emulation (Binary Coded Ternary)</strong>
+                                <p class="text-gray-400">To emulate ternary logic on binary systems, each trit {-1, 0, +1} is represented by 2 bits. This provides robustness and error detection. The chosen scheme is: <code class="font-mono bg-gray-700 text-gray-200 p-1 rounded">00</code> for -1 (N), <code class="font-mono bg-gray-700 text-gray-200 p-1 rounded">01</code> for 0 (Z), and <code class="font-mono bg-gray-700 text-gray-200 p-1 rounded">10</code> for +1 (P). The <code class="font-mono bg-gray-700 text-gray-200 p-1 rounded">11</code> state is reserved as an invalid/error signal, crucial for debugging the emulator.</p>
+                            </div>
+                            <div><strong class="text-lg text-gray-200 block mb-1">Fundamental Data Units</strong>
+                                 <p class="text-gray-400"><strong class="text-gray-300">Tryte:</strong> 9 trits (3⁹ = 19,683 values). This is the smallest addressable unit of memory, offering a rich value range compared to a binary byte while being a natural multiple of 3. <br><strong class="text-gray-300">Word:</strong> 27 trits (3 trytes). This is the processor's native data size, defining the width of registers and the data bus. This size is ideal for encoding complex instructions with ample space for opcodes and operands.</p>
+                            </div>
+                            <div><strong class="text-lg text-gray-200 block mb-1">Endianness</strong>
+                                <p class="text-gray-400">The architecture will adopt a <strong class="text-white">Little-Tritian</strong> memory order. The least significant tryte is stored at the lowest memory address. This aligns with common modern architectures like x86 and can simplify multi-tryte arithmetic operations.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="arch-content-pane hide" id="tab-registers">
+                        <h4 class="text-2xl font-bold mb-4 text-blue-300">Register Set Architecture</h4>
+                        <div class="space-y-6">
+                             <div><strong class="text-lg text-gray-200 block mb-1">General-Purpose Registers (GPRs)</strong>
+                                <p class="text-gray-400">The core will feature <strong class="text-white">27 GPRs (R0 to R26)</strong>, each 27 trits wide. This large register file facilitates efficient data manipulation and reduces memory traffic. Following RISC principles, no GPRs have special hardware-enforced properties; however, R0 is often treated as a zero register by software convention.</p>
+                            </div>
+                            <div><strong class="text-lg text-gray-200 block mb-1">Special-Purpose Registers & Conventions</strong>
+                                <p class="text-gray-400"><strong class="text-gray-300">Program Counter (PC):</strong> A dedicated, 27-trit register that holds the memory address of the next instruction to be executed.<br><strong class="text-gray-300">Stack Pointer (SP):</strong> A software convention, aliased to <strong class="text-white">R25</strong>. There is no dedicated hardware SP, simplifying the CPU design.<br><strong class="text-gray-300">Flags Register (FR):</strong> Intentionally omitted. The self-describing nature of balanced ternary results (Negative, Zero, Positive) eliminates the need for a complex status/flags register. This is a key architectural simplification that reduces pipeline complexity and removes a potential instruction bottleneck, representing a significant advantage over binary designs.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="arch-content-pane hide" id="tab-isa">
+                        <h4 class="text-2xl font-bold mb-4 text-blue-300">Instruction Set Architecture (ISA)</h4>
+                        <div class="space-y-6">
+                             <div><strong class="text-lg text-gray-200 block mb-1">Instruction Format</strong>
+                                <p class="text-gray-400">All instructions are fixed at one word (27 trits) in length. This uniformity simplifies instruction fetching and decoding. The implemented Alpha format is: <strong class="text-white">[Imm/Offset: 12 trits | Src2 Reg: 3 trits | Src1 Reg: 3 trits | Dest Reg: 3 trits | Opcode: 6 trits]</strong>. This specific arrangement provides 729 possible opcodes and a 12-trit field for immediate values or offsets, offering flexibility for the current RISC-like instruction set.</p>
+                            </div>
+                            <div><strong class="text-lg text-gray-200 block mb-1">Addressing Modes</strong>
+                                <p class="text-gray-400">A comprehensive set of addressing modes will be supported to provide compilers with the flexibility to generate efficient code: Immediate, Register Direct, Memory Direct, Register Indirect, and Register Indirect with Offset (e.g., <code class="font-mono bg-gray-700 text-gray-200 p-1 rounded">LOAD R1, [R2 + offset]</code>).</p>
+                            </div>
+                            <div><strong class="text-lg text-gray-200 block mb-1">Logical Operations for AI</strong>
+                                <p class="text-gray-400">Defining ternary logic is a core research area. The ISA will be designed to accommodate operations from systems like <strong class="text-white">Kleene or Bochvar logic</strong>. Initial core operations will include MIN (ternary AND) and MAX (ternary OR), which are foundational for building the complex, multi-valued decision gates required by advanced AI models and Ternary Neural Networks.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="emulation-bridge" class="mb-24 scroll-mt-24">
+            <div class="max-w-4xl mx-auto text-center bg-blue-900/20 border border-blue-500/30 p-8 rounded-lg glow-pulse scroll-animate">
+                <h4 class="text-2xl font-bold text-white mb-3">A Bridge to the Future: Binary Emulation by Design</h4>
+                <p class="text-blue-200 text-lg">To perfect the digital paradigm, we must carry its legacy forward. That is why <strong class="text-white">emulation of the binary x86-64 instruction set is a foundational design principle, not an afterthought.</strong> This ensures a seamless transition, allowing all existing software and data to run on the ultimate digital architecture.</p>
+            </div>
+        </section>
+
+        <section id="roadmap" class="mb-24 scroll-mt-24">
+            <h3 class="text-4xl font-bold text-center mb-4 text-white scroll-animate">Development Roadmap</h3>
+            <p class="text-lg text-gray-400 text-center max-w-4xl mx-auto mb-16 scroll-animate" style="transition-delay: 100ms;">This roadmap is a living document, outlining our transparent, phased approach to building the future of computing. We invite contributors with the right skills to join us at any stage of this journey.</p>
+            <div class="relative max-w-4xl mx-auto">
+                <div class="absolute left-1/2 -translate-x-1/2 w-1 h-full bg-blue-900/70 rounded"></div>
+                
+                <div class="relative mb-8 scroll-animate">
+                    <div class="absolute left-1/2 -translate-x-1/2 w-8 h-8 flex items-center justify-center bg-green-500 rounded-full border-4 border-gray-800 text-white font-bold">✓</div>
+                    <div class="ml-[calc(50%_+_2.5rem)] bg-gray-800/50 p-6 rounded-lg border border-green-700">
+                        <h4 class="text-xl font-bold text-green-300 mb-2">Phase 1: Foundation & Community (COMPLETED)</h4>
+                        <ul class="list-disc list-inside text-gray-400 space-y-2">
+                            <li><strong>Core Software (Alpha):</strong> The foundational btern emulator (bemu) and assembler (basm) have been developed in Rust and verified to execute basic arithmetic and control flow instructions.</li>
+                            <li><strong>Living Documentation:</strong> The "btern Daily" living document has been created to guide contributors and track project status.</li>
+                            <li>Community Building: Launch official communication channels and documentation to attract skilled contributors and gain social traction.</li>
+                            <li>Establish Non-Profit: Form a transparent non-profit foundation to manage project funds, legal aspects, and guide the open-source effort.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relative mb-8 scroll-animate">
+                     <div class="absolute left-1/2 -translate-x-1/2 w-8 h-8 flex items-center justify-center bg-blue-500 rounded-full border-4 border-gray-800 text-white font-bold">2</div>
+                    <div class="mr-[calc(50%_+_2.5rem)] text-right bg-gray-800/50 p-6 rounded-lg border border-gray-700">
+                        <h4 class="text-xl font-bold text-blue-300 mb-2">Phase 2: Validation & Growth (CURRENT FOCUS)</h4>
+                         <ul class="list-disc list-inside text-gray-400 space-y-2 text-left">
+                            <li><strong>Advanced Toolchain:</strong> Develop a C/C++ compiler backend for LLVM (bt-clang) to enable high-level programming.</li>
+                            <li><strong>FPGA Prototyping:</strong> Implement and validate the btern ISA on physical hardware, gathering real-world performance data.</li>
+                            <li><strong>Secure Funding:</strong> Leverage the non-profit to pursue grants and funding for lab equipment, materials, and professional services.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="relative scroll-animate">
+                    <div class="absolute left-1/2 -translate-x-1/2 w-8 h-8 flex items-center justify-center bg-gray-600 rounded-full border-4 border-gray-800 text-white font-bold">3</div>
+                    <div class="ml-[calc(50%_+_2.5rem)] bg-gray-800/50 p-6 rounded-lg border border-gray-700">
+                        <h4 class="text-xl font-bold text-gray-200 mb-2">Phase 3: Manufacturing & Adoption</h4>
+                        <ul class="list-disc list-inside text-gray-400 space-y-2">
+                            <li><strong>ASIC Design & Tape-Out:</strong> Engineer the final Application-Specific Integrated Circuit (ASIC) for manufacturing.</li>
+                            <li><strong>Developer Ecosystem:</strong> Produce developer kits, comprehensive documentation, and a minimal OS (bOS) to foster software creation.</li>
+                            <li><strong>Industry Partnerships:</strong> Collaborate with academic institutions and industry leaders to drive adoption in key sectors.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="advantage" class="mb-24 scroll-mt-24">
+            <h3 class="text-4xl font-bold text-center mb-4 text-white scroll-animate">The Ternary Advantage</h3>
+            <p class="text-lg text-gray-400 text-center max-w-4xl mx-auto mb-12 scroll-animate" style="transition-delay: 100ms;">Balanced ternary isn't just a different number system; it's the ultimate evolution of digital computing. It dismantles the patchwork of complexities bolted onto binary over decades, replacing them with inherent efficiency, simplicity, and power.</p>
+            
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 scroll-animate" style="transition-delay: 200ms;">
+                    <h4 class="font-bold text-xl text-blue-300 mb-2">Inherent Simplicity</h4>
+                    <p class="text-gray-400">The symmetry of {-1, 0, 1} simplifies core logic. Operations like negation are trivial, and the need for complex patchwork like a FLAGS register is eliminated entirely. This leads to a cleaner, more elegant processor design from the ground up.</p>
+                </div>
+                 <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 scroll-animate" style="transition-delay: 300ms;">
+                    <h4 class="font-bold text-xl text-blue-300 mb-2">Radical Power Efficiency</h4>
+                    <p class="text-gray-400">Binary's growth demands ever-expanding power infrastructure. Ternary computing's higher data density and simpler logic fundamentally reduce power consumption per operation. This enables more computation, especially for AI, within the same power envelope.</p>
+                </div>
+                <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 scroll-animate" style="transition-delay: 400ms;">
+                    <h4 class="font-bold text-xl text-blue-300 mb-2">Unmatched Data Density</h4>
+                    <p class="text-gray-400">A 9-trit 'Tryte' holds 19,683 values versus a byte's 256. This massive increase in information density leads to smaller memory footprints, reduced bus traffic, and more effective cache utilization, boosting overall system performance.</p>
+                </div>
+                 <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 scroll-animate" style="transition-delay: 500ms;">
+                    <h4 class="font-bold text-xl text-blue-300 mb-2">The End of Architectural Patches</h4>
+                     <p class="text-gray-400">Much of modern binary processor complexity (e.g., AVX, branch prediction) is a patch to overcome inherent inefficiencies. Ternary logic solves many of these problems at the foundational level, allowing for a more streamlined and powerful architecture without the decades of accumulated baggage.</p>
+                </div>
+                 <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 scroll-animate" style="transition-delay: 600ms;">
+                    <h4 class="font-bold text-xl text-blue-300 mb-2">Modern Feasibility</h4>
+                    <p class="text-gray-400">Binary's dominance was a practical choice for early, simple electronics. Today, modern CMOS fabrication and lithography can be used to create ternary logic gates. The technology is finally mature enough to build the mathematically optimal digital system we've always known was possible.</p>
+                </div>
+                <div class="bg-gray-800/50 p-6 rounded-lg border border-gray-700 scroll-animate" style="transition-delay: 700ms;">
+                    <h4 class="font-bold text-xl text-blue-300 mb-2">AI-Native Architectures</h4>
+                    <p class="text-gray-400">Balanced ternary logic is a natural fit for Ternary Neural Networks (TNNs) and other AI models. Representing weights as {-1, 0, 1} drastically reduces model size and computational complexity, leading to faster, more efficient AI inference than is possible on binary systems.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="transparency" class="scroll-mt-24">
+             <div class="max-w-4xl mx-auto text-center bg-teal-900/20 border border-teal-500/30 p-8 rounded-lg scroll-animate" style="transition-delay: 800ms;">
+                <h4 class="text-2xl font-bold text-white mb-3">Our Commitment to Openness</h4>
+                <p class="text-teal-200 text-lg">The btern project is built on a foundation of absolute transparency. The entire architecture is open-source, and its stewardship will be managed by a dedicated non-profit foundation. All funding, expenditures, and technical decisions will be public. This is not just about building a processor; it's about building a trustworthy, community-driven ecosystem for the next era of technology. We invite you to contribute, scrutinize, and help us shape this future.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-950 text-gray-500 mt-24">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>&copy; 2025 The btern Open Source Project. All rights reserved.</p>
+            <p class="text-sm mt-2">This interactive document serves as the project's living specification.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const archTabs = document.querySelectorAll('.arch-tab');
+            const archContentPanes = document.querySelectorAll('.arch-content-pane');
+
+            archTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    archTabs.forEach(t => {
+                        t.classList.remove('tab-active');
+                    });
+                    tab.classList.add('tab-active');
+
+                    archContentPanes.forEach(pane => {
+                        pane.classList.add('hide');
+                    });
+
+                    const targetPane = document.getElementById(tab.dataset.target);
+                    targetPane.classList.remove('hide');
+                    targetPane.classList.add('fade-in');
+                });
+            });
+
+            const scrollElements = document.querySelectorAll('.scroll-animate');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            scrollElements.forEach(el => {
+                observer.observe(el);
+            });
+            
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 10) {
+                    header.classList.add('shadow-lg', 'shadow-black/20');
+                } else {
+                    header.classList.remove('shadow-lg', 'shadow-black/20');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

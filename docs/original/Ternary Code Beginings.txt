@@ -1,0 +1,435 @@
+CPU Struct and Core Logic:
+
+// cpu.rs - Defines the CPU structure and its primary operations.
+
+use crate::trit::Trit;
+use crate::types::{Tryte, Word};
+
+const MEMORY_TRYTES: usize = 19683; // 3^9 Trytes
+
+pub struct Cpu {
+    /// General-Purpose Registers R0-R26.
+    gpr: [Word; 27],
+
+    /// Program Counter.
+    pc: Word,
+
+    /// Simulated main memory.
+    memory: Vec<Tryte>,
+}
+
+impl Cpu {
+    /// Creates a new, initialized CPU instance.
+    pub fn new() -> Self {
+        println!("Initializing btern CPU...");
+        Self {
+            // R0 is not special-cased here, but in the instruction logic.
+            // All registers default to a word of Zeros.
+            gpr: [[Trit::Z; 27]; 27],
+            pc: [Trit::Z; 27],
+            memory: vec![[Trit::Z; 9]; MEMORY_TRYTES],
+        }
+    }
+
+    /// Runs the main fetch-decode-execute cycle.
+    pub fn run(&mut self) -> Result<(), String> {
+        let mut running = true;
+        while running {
+            // 1. Fetch
+            let instruction = self.fetch()?;
+            
+            // 2. Decode & 3. Execute
+            // For now, we will just stop after one cycle.
+            // The result of decode will eventually determine the operation to execute.
+            println!("Fetched instruction at PC=0. Halting for now.");
+            // self.execute(self.decode(instruction)?)?;
+
+            running = false; // Halt after the first instruction for now.
+        }
+        Ok(())
+    }
+
+    /// Fetches a Word (3 trytes) from memory at the address in the PC.
+    fn fetch(&self) -> Result<Word, String> {
+        // NOTE: This requires converting a 27-trit Word address (pc) into a usize index.
+        // This is a complex operation that we will implement later.
+        let pc_address: usize = 0; // Placeholder
+        
+        if pc_address + 2 >= self.memory.len() {
+            return Err(format!("Memory access out of bounds at PC={}", pc_address));
+        }
+
+        // An instruction is one Word (27 trits), which is 3 Trytes.
+        let mut instruction_word = [Trit::Z; 27];
+        let tryte1 = &self.memory[pc_address];
+        let tryte2 = &self.memory[pc_address + 1];
+        let tryte3 = &self.memory[pc_address + 2];
+
+        // This copy logic will be more sophisticated.
+        instruction_word[0..9].copy_from_slice(tryte1);
+        instruction_word[9..18].copy_from_slice(tryte2);
+        instruction_word[18..27].copy_from_slice(tryte3);
+
+        Ok(instruction_word)
+    }
+}
+
+
+Architectural Data Types:
+
+// types.rs - Defines the primary architectural data units.
+
+use crate::trit::Trit;
+
+/// A Word is 27 trits, the native data size of the btern processor's registers.
+pub type Word = [Trit; 27];
+
+/// A Tryte is 9 trits, the fundamental addressable unit of memory.
+pub type Tryte = [Trit; 9];
+
+
+Trit Enum and Logic:
+
+// trit.rs - Defines the core balanced trit data type.
+
+use std::fmt;
+
+/// Represents a single balanced ternary digit {-1, 0, +1}.
+/// Using a C-style enum with explicit discriminants for clarity.
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[repr(i8)]
+pub enum Trit {
+    N = -1, // Negative
+    Z = 0,  // Zero
+    P = 1,  // Positive
+}
+
+impl Trit {
+    /// Converts an integer into a Trit. Returns an error if the value is invalid.
+    pub fn from_i8(val: i8) -> Result<Self, &'static str> {
+        match val {
+            -1 => Ok(Trit::N),
+            0 => Ok(Trit::Z),
+            1 => Ok(Trit::P),
+            _ => Err("Invalid integer value for Trit; must be -1, 0, or 1."),
+        }
+    }
+
+    /// Converts a Trit into its 2-bit Binary Coded Ternary (BCT) representation.
+    /// -1 (N) -> 00
+    ///  0 (Z) -> 01
+    /// +1 (P) -> 10
+    pub fn to_bct(self) -> u8 {
+        match self {
+            Trit::N => 0b00,
+            Trit::Z => 0b01,
+            Trit::P => 0b10,
+        }
+    }
+
+    /// Creates a Trit from its 2-bit BCT representation.
+    pub fn from_bct(bct: u8) -> Result<Self, &'static str> {
+        match bct & 0b11 { // Mask to ensure we only look at 2 bits
+            0b00 => Ok(Trit::N),
+            0b01 => Ok(Trit::Z),
+            0b10 => Ok(Trit::P),
+            _ => Err("Invalid BCT value; must be 00, 01, or 10."),
+        }
+    }
+}
+
+/// Implement the Neg trait for Trit, allowing us to use the `-` operator.
+/// e.g., -Trit::P == Trit::N
+impl std::ops::Neg for Trit {
+    type Output = Self;
+    fn neg(self) -> Self::Output {
+        match self {
+            Trit::N => Trit::P,
+            Trit::Z => Trit::Z,
+            Trit::P => Trit::N,
+        }
+    }
+}
+
+/// Default Trit value is Zero (Z).
+impl Default for Trit {
+    fn default() -> Self {
+        Trit::Z
+    }
+}
+
+/// Custom display for printing Trits.
+impl fmt::Display for Trit {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Trit::N => write!(f, "-"),
+            Trit::Z => write!(f, "0"),
+            Trit::P => write!(f, "+"),
+        }
+    }
+}
+
+
+bemu Main Application:
+
+// main.rs - The entry point for the btern emulator (bemu).
+
+// Declare the modules we'll be using.
+mod cpu;
+mod trit;
+mod types;
+
+use cpu::Cpu;
+
+fn main() {
+    println!("Starting btern Virtual Machine (bemu)...");
+
+    // Create a new instance of our CPU.
+    let mut btern_cpu = Cpu::new();
+
+    // Run the simulation.
+    match btern_cpu.run() {
+        Ok(_) => println!("\nbemu simulation finished successfully."),
+        Err(e) => {
+            eprintln!("\nAn error occurred during execution: {}", e);
+            std::process::exit(1);
+        }
+    }
+}
+
+
+Cargo Workspace Configuration:
+
+[workspace]
+
+members = [
+    "bemu",
+    # "basm", # Will be added in Milestone 1.2
+]
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = 'abort'
+
+
+Main Emulator Application:
+
+#include <iostream>
+#include "CPU.h"
+
+int main() {
+    try {
+        std::cout << "Starting btern Virtual Machine (bemu)..." << std::endl;
+        
+        CPU btern_cpu;
+        btern_cpu.run();
+
+        std::cout << "bemu simulation finished." << std::endl;
+
+    } catch (const std::exception& e) {
+        std::cerr << "An error occurred: " << e.what() << std::endl;
+        return 1;
+    }
+
+    return 0;
+}
+
+
+CPU Implementation:
+
+#include "CPU.h"
+#include <iostream>
+
+// Constructor for the CPU. Initializes registers and memory.
+CPU::CPU() : memory(19683) /* 3^9 Trytes for now */ {
+    // Initialize all GPRs to zero.
+    Word zero_word;
+    for (int i = 0; i < 27; ++i) {
+        zero_word[i].set(0);
+    }
+    for (auto& reg : gpr) {
+        reg = zero_word;
+    }
+
+    // Initialize Program Counter to address 0.
+    pc = zero_word;
+
+    std::cout << "btern CPU Initialized. Memory size: " << memory.size() << " Trytes." << std::endl;
+}
+
+
+// The main fetch-decode-execute loop.
+void CPU::run() {
+    bool running = true;
+    while(running) {
+        // 1. Fetch the instruction at the address pointed by PC.
+        Word instruction = fetch();
+
+        // 2. Decode the instruction to determine the operation and operands.
+        decode(instruction);
+
+        // 3. Execute the operation.
+        execute();
+
+        // For now, we'll just stop after one cycle for testing.
+        running = false;
+    }
+}
+
+
+// Fetches a 27-trit word from memory at the current PC.
+Word CPU::fetch() {
+    // This is a simplified fetch. We will need a proper way to convert
+    // the PC Word to a memory index.
+    std::cout << "Fetching instruction at PC=0..." << std::endl;
+
+    // For now, return a hardcoded instruction (e.g., NOP or ADD R1, R0, R0)
+    Word instruction; // All zeros by default, a NOP
+    return instruction;
+}
+
+
+// Decodes an instruction word into its constituent parts.
+void CPU::decode(const Word& instruction) {
+    // Logic to extract opcode, register numbers, and immediate values
+    // from the 27-trit instruction word will go here.
+    std::cout << "Decoding instruction..." << std::endl;
+}
+
+// Executes the decoded instruction.
+void CPU::execute() {
+    // This will contain the large switch statement for all opcodes.
+    std::cout << "Executing instruction..." << std::endl;
+
+    // switch(decoded_opcode) {
+    //    case ADD: op_add(...); break;
+    //    case SUB: op_sub(...); break;
+    //    ...
+    // }
+}
+
+// Example implementation of the ADD instruction.
+void CPU::op_add(int dest_reg, int src1_reg, int src2_reg) {
+    // This is where the magic of balanced ternary addition happens.
+    // It involves trit-by-trit addition with carry propagation.
+    // We will need helper functions to perform arithmetic on Words.
+}
+
+
+CPU Header:
+
+#ifndef CPU_H
+#define CPU_H
+
+#include <vector>
+#include <array>
+#include "Trit.h"
+
+// A Word is 27 trits, the native data size of the btern processor.
+using Word = std::array<Trit, 27>;
+
+// A Tryte is 9 trits, the fundamental addressable unit of memory.
+using Tryte = std::array<Trit, 9>;
+
+
+class CPU {
+public:
+    CPU();
+
+    // The main execution cycle of the CPU.
+    void run();
+
+private:
+    // General-Purpose Registers R0-R26.
+    // R0 is hardwired to zero.
+    std::array<Word, 27> gpr;
+
+    // Special-Purpose Registers.
+    Word pc; // Program Counter
+
+    // By convention, R25 is SP and R26 is LR.
+
+    // Simulated memory. Using a simple vector for now.
+    // The size will be defined later. For now, 1 Mi-Trytes (3^14 Trytes)
+    std::vector<Tryte> memory;
+
+    // --- Core Cycle Functions ---
+    Word fetch();
+    void decode(const Word& instruction);
+    void execute(); // This will be the main logic hub
+
+    // --- Instruction Execution Functions ---
+    // Placeholder for the execution of a decoded instruction.
+    // This will grow into a large switch statement or a map of function pointers.
+    void executeInstruction(/* Decoded instruction details */);
+
+    // Example ALU function
+    void op_add(int dest_reg, int src1_reg, int src2_reg);
+};
+
+#endif // CPU_H
+
+
+Trit Data Type:
+
+#ifndef TRIT_H
+#define TRIT_H
+
+#include <cstdint>
+#include <stdexcept>
+
+// Represents a single balanced ternary digit {-1, 0, +1}.
+// This is the foundational data type for the entire architecture.
+// Internally, it uses the 2-bit Binary Coded Ternary (BCT) scheme.
+class Trit {
+public:
+    // Default constructor initializes to 0 (Z).
+    Trit() : value(0b01) {}
+
+    // Constructor from an integer value.
+    Trit(int8_t val) {
+        set(val);
+    }
+
+    // Set the trit's value.
+    void set(int8_t val) {
+        if (val == -1) {
+            value = 0b00; // -1 -> 00
+        } else if (val == 0) {
+            value = 0b01; //  0 -> 01
+        } else if (val == 1) {
+            value = 0b10; // +1 -> 10
+        } else {
+            throw std::invalid_argument("Invalid trit value. Must be -1, 0, or 1.");
+        }
+    }
+
+    // Get the integer value of the trit.
+    int8_t get() const {
+        if (value == 0b00) {
+            return -1;
+        } else if (value == 0b01) {
+            return 0;
+        } else if (value == 0b10) {
+            return 1;
+        }
+        // This case should ideally not be reached if the class is used correctly.
+        return 0; // Or throw an error for invalid state 11
+    }
+
+    // Overload operators for easy manipulation (example).
+    Trit operator-() const {
+        return Trit(-get());
+    }
+
+private:
+    // The 2-bit representation based on the ISA specification.
+    // 00: -1 (N)
+    // 01:  0 (Z)
+    // 10: +1 (P)
+    // 11: Invalid
+    uint8_t value : 2;
+};
+
+#endif // TRIT_H

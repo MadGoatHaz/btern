@@ -1,5 +1,9 @@
 # The btern Processor Project (BPP): The Future is Ternary
 
+[![GitHub Pages Status](https://github.com/MadGoatHaz/btern/actions/workflows/pages.yml/badge.svg)](https://madgoathaz.github.io/btern/)
+
+**[View the Interactive Project Webpage Here](https://madgoathaz.github.io/btern/)**
+
 A community-driven initiative to perfect digital computing—creating the ultimate architecture for AI and generations to come using balanced ternary logic.
 
 ## 🚀 Project Vision
